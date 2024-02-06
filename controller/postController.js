@@ -1,16 +1,15 @@
 const postModal = require("../models/postModal")
 
-const createPost = async (req , response) =>{
+const createPost = async (req, response) => {
 
 
-    try
-    {
+    try {
 
         const newPost = new postModal({
-            userId : req.body.id ,
-            content : req.body.content ,
-            createdAt : Date.now(),
-            updatedAt : Date.now()
+            userId: req.body.id,
+            content: req.body.content,
+            createdAt: Date.now(),
+            updatedAt: Date.now()
         })
 
         await newPost.save().then(() => {
@@ -21,17 +20,22 @@ const createPost = async (req , response) =>{
                 response.send(error)
                 console.error('Error saving post:', error);
             });
-    }catch(error)
-    {
+    } catch (error) {
         console.log(error)
         response.send(error)
     }
 }
 
-const getPost = async (req , res) =>{
+const getPost = async (req, res) => {
 
-    const post = await postModal.find({})
-    res.send(post)
+    try {
+
+        const post = await postModal.find({})
+        res.send(post)
+    } catch (error) {
+        res.send(error)
+        console.log(error)
+    }
 
 }
-module.exports = {createPost , getPost}
+module.exports = { createPost, getPost }
